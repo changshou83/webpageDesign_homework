@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 梯形面积 */
+    .trapezoid input {
+      margin: 0 .3em;
+      width: 5em;
+    }
+
+    /* 计算器 */
+    .screen {
+      width: 30vw;
+      height: 70px;
+      border: 1px solid black;
+      margin: .3em .5em;
+    }
+
+    .pipeScreen {
+      border: 1px solid black;
+      font-size: 1em;
+      height: 40%;
+    }
+
+    .numberScreen {
+      height: 50%;
+      font-size: 1.5em;
+    }
+
+    .number,
+    .operator {
+      margin: .3em .5em;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>梯形面积计算</h2>
+  <div class="trapezoid">
+    ((<input type="number" class="trapezoidTopWidth" placeholder="请输入上底" />
+    +
+    <input type="number" class="trapezoidBottomWidth" placeholder="请输入下底" />)
+    x
+    <input type="number" class="trapezoidHeight" placeholder="请输入高" />)/2
+    =
+    <span class="area">0</span>
+  </div>
+  <h2>随机点名</h2>
+  <div>
+    <p class="students">Students: </p>
+    <p class="called">Result: </p>
+    <input type="button" class="call" value="call" />
+  </div>
+  <h2>倒计时显示</h2>
+  <p class="Time">20</p>
+  <input type="button" value="play" class="timerOperator">
+  <input type="button" value="reset" class="resetButton">
+  <h2>计算器</h2>
+  <div class="calc">
+    <div class="screen">
+      <div class="pipeScreen"></div>
+      <div class="numberScreen">0</div>
+    </div>
+  </div>
+  <h3>TODO:</h3>
+  <ul>
+    <li>支持按键</li>
+    <li>支持历史记录</li>
+  </ul>
+  <script>
+    /* 梯形面积计算 */
+    const trapezoidData = {
+      topWidth: 0,
+      bottomWidth: 0,
+      height: 0,
+      topWidthTrue: false,
+      bottomWidthTrue: false,
+      heightTrue: false
+    }
+    // 挂载事件
+    function calcArea(elName, side, bool) {
+      document.querySelector(elName).addEventListener('change', (e) => {
+        e.target.value = e.target.value >= 0 ? e.target.value : 0
+        trapezoidData[side] = e.target.value
+        if (trapezoidData[side] !== 0) trapezoidData[bool] = true
+        else trapezoidData[bool] = false
+        area()
+      })
+    }
+    calcArea('.trapezoidTopWidth', 'topWidth', 'topWidthTrue')
+    calcArea('.trapezoidBottomWidth', 'bottomWidth', 'bottomWidthTrue')
+    calcArea('.trapezoidHeight', 'height', 'heightTrue')
+    // 计算面积
+    const trapezoidArea = document.querySelector('.area')
+    function area() {
+      const { topWidth, bottomWidth, height, topWidthTrue, bottomWidthTrue, heightTrue } = trapezoidData
+      if (topWidthTrue && bottomWidthTrue && heightTrue) trapezoidArea.innerHTML = ((Number(topWidth) + Number(bottomWidth)) * height) / 2
+    }
+
+    /* 随机点名 */
+    // 生成数据
+    const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
+    const students = Array.from({ length: 26 }, (_, i) => i + 'A'.charCodeAt(0)).map(v => String.fromCharCode(v))
+    const call = () => { document.querySelector('.called').innerHTML = 'Result: ' + students[random(0, students.length - 1)] }
+    // 挂载事件
+    document.querySelector('.students').innerHTML = 'Students: ' + JSON.stringify(students)
+    document.querySelector('.call').addEventListener('click', call)
+
+    /* 倒计时显示 */
+    const time = document.querySelector(".Time");
+    const timerOperator = document.querySelector('.timerOperator');
+    const resetButton = document.querySelector('.resetButton')
+    let countDownTimer = null;
+    function countDown() {
+      if (time.innerHTML == 0) {
+        time.innerHTML = 'Over!'
+        window.clearInterval(countDownTimer)
+        timerOperator.removeEventListener('click', controlTimer)
+      } else {
+        time.innerHTML = time.innerHTML - 1;
+      }
+    }
+    function controlTimer(e) {
+      if (e.target.value == 'pause') {
+        e.target.value = 'play'
+        window.clearInterval(countDownTimer)
+      } else {
+        e.target.value = 'pause'
+        countDownTimer = window.setInterval(countDown, 1000)
+      }
+    }
+    function resetTimer() {
+      // 清除
+      window.clearInterval(countDownTimer)
+      timerOperator.removeEventListener('click', controlTimer)
+      // 初始化
+      time.innerHTML = '20'
+      timerOperator.innerHTML = 'play'
+      timerOperator.addEventListener('click', controlTimer)
+    }
+    timerOperator.addEventListener('click', controlTimer)
+    resetButton.addEventListener('click', resetTimer)
+
+    /* 计算器 */
+    // 生成数据
+    const numbers = Array.from({ length: 10 }, (_, i) => i)
+    const operator = ['+', '-', '*', '/', '=', 'C', 'CE']// C(lean) C(lean)E(ntry)
+    // 挂载元素
+    const calc = document.querySelector('.calc')
+    function createButton(arr, { divClassName, itemClassName }) {
+      const div = document.createElement('div')
+      div.className = divClassName
+      arr.forEach(v => {
+        const item = document.createElement('input')
+        item.type = 'button'
+        item.className = itemClassName
+        item.value = v
+        div.appendChild(item)
+      })
+      calc.appendChild(div)
+    }
+    createButton(numbers, { divClassName: 'numbers', itemClassName: 'number' })
+    createButton(operator, { divClassName: 'operators', itemClassName: 'operator' })
+    // 按钮操作
+    const pipeScreen = document.querySelector('.screen .pipeScreen')
+    const numberScreen = document.querySelector('.screen .numberScreen')
+    let cacheResult = false;
+    function calcResult(pipe, number) {
+      let result = 0;
+      switch (pipe[2]) {
+        case '+':
+          result = Number(pipe[1]) + Number(number)
+          break;
+        case '-':
+          result = Number(pipe[1]) - Number(number)
+          break;
+        case '*':
+          result = Number(pipe[1]) * Number(number)
+          break;
+        case '/':
+          result = Number(pipe[1]) / Number(number)
+          break;
+      }
+      return result
+    }
+    function numbersEnter(e) {
+      if (e.target.value == undefined) return;
+      if (numberScreen.innerHTML == '0' || cacheResult) {
+        numberScreen.innerHTML = e.target.value
+        cacheResult = false;
+        return;
+      }
+      numberScreen.innerHTML += e.target.value
+    }
+    function operatorsEnter(e) {
+      if (e.target.value == 'C') {
+        pipeScreen.innerHTML = ''
+        numberScreen.innerHTML = '0'
+        return;
+      }
+      if (e.target.value == 'CE') {
+        numberScreen.innerHTML = '0'
+        return;
+      }
+      const matchResult = pipeScreen.innerHTML.match(/^(\d+)([+\-\*\/])/)
+      // 只有按 '=' 才会计算
+      switch (e.target.value) {
+        case '=':
+          pipeScreen.innerHTML = `${pipeScreen.innerHTML}${numberScreen.innerHTML}=`
+          numberScreen.innerHTML = calcResult(matchResult, numberScreen.innerHTML)
+          break;
+        default:
+          if (pipeScreen.innerHTML == '' || pipeScreen.innerHTML.endsWith('=')) {
+
+            pipeScreen.innerHTML = numberScreen.innerHTML + e.target.value// 更新pipeScreen为最新结果和操作符
+          } else if (/\d+[+\-\*\/]/.test(pipeScreen.innerHTML)) {
+
+            pipeScreen.innerHTML = matchResult[1] + e.target.value// 可以切换操作符
+          }
+          break;
+      }
+      cacheResult = true
+    }
+    document.querySelector('.numbers').addEventListener('click', numbersEnter)
+    document.querySelector('.operators').addEventListener('click', operatorsEnter)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>checkerboard</title>
+
+  <style type="text/css">
+    body {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100vh;
+    }
+
+    table {
+      border: 1px solid #000;
+      margin-top: 10px;
+    }
+
+    td {
+      width: 50px;
+      height: 50px;
+    }
+
+    .white {
+      background: #fff;
+    }
+
+    .black {
+      background: #000;
+    }
+
+    .Time {
+      font-size: 35px;
+      text-align: center;
+    }
+
+    .t {
+      font-size: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="color: #4facfe;">
+    <p class="Time">20</p>
+    <p class="t">别看了！快到点了！！！</p>
+  </div>
+  <center>
+    <input type="button" value="改变背景颜色" onfocus="Focus()" onblur="Lose()">
+  </center>
+  <script>
+    let off = true;
+    const table = document.createElement('table');
+    table.cellPadding = 0;
+    table.cellSpacing = 0;
+
+    for (i = 1; i <= 8; i++) {
+      const tr = document.createElement('tr')
+      for (j = 1; j <= 8; j++) {
+        const td = document.createElement('td')
+        td.className = off ? 'white' : 'black';
+        off = !off;
+        tr.appendChild(td)
+      }
+      off = !off;
+      table.appendChild(tr)
+    }
+    document.querySelector('center').appendChild(table);
+  </script>
+  <script>
+    function Focus() { document.bgColor = "#a8edea "; }
+    function Lose() { document.bgColor = "#fed6e3"; }
+
+    const time = document.querySelector(".Time");
+    function countDown() {
+      if (time.innerHTML == 0) {
+        window.location.href = "index.html";
+      } else {
+        time.innerHTML = time.innerHTML - 1;
+      }
+    }
+    window.setInterval(countDown, 1000);
+  </script>
+</body>
+
+</html>

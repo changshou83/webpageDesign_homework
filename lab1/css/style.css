@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: azure;
+  background-size: cover;
+  color: #fff;
+  height: 945;
+  width: 1920;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.nav-bar p {
+  font-size: large;
+  color: cornflowerblue;
+  margin: 15px;
+}
+
+/*TODO：请补充代码  Done*/
+.content-container {
+  /* 布局 */
+  display: grid;
+  place-content: center;
+}
+
+.content {
+  /* 布局 */
+  display: grid;
+  justify-content: center;
+  /* 位置 */
+  top: 8%;
+  position: relative;
+  /* 自身 */
+  height: 600px;
+  width: 450px;
+
+  border-radius: 10px;
+
+  background-color: rgba(0, 0, 0, .45);
+
+}
+
+/* 图片done */
+.content>img {
+  /* 位置 */
+  position: absolute;
+  transform: translateY(-37.5%);
+
+  margin: 0 125px;
+  /* 自身 */
+  width: 200px;
+  height: 200px;
+
+  border-radius: 50%;
+}
+
+/* 表单：Done */
+.content .form {
+  /* 布局 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 位置 */
+  margin-top: 125px;
+}
+
+.content .form h2 {
+  /* 自身 */
+  font-size: 45px;
+}
+
+.content .form form {
+  /* 布局 */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  /* 位置 */
+  margin-top: 50px;
+}
+
+.content .form form input {
+  /* 布局 */
+  text-align: center;
+  /* 位置 */
+  margin-bottom: 24px;
+  padding: .35em .8em;
+  /* 自身 */
+  font-size: 20px;
+
+  border: 0;
+  border-radius: 5px;
+
+  width: 300px;
+}
+
+.content .form form .btns {
+  /* 布局 */
+  display: flex;
+  /* 位置 */
+  margin-left: 1em;
+}
+
+.content .form form .btns button {
+  /* 位置 */
+  margin-right: 10px;
+  /* 自身 */
+  width: 80px;
+  height: 30px;
+
+  border-color: #041c32;
+  background-color: #2d4263;
+
+  color: white;
+  font-size: 16px;
+}
+
+/* 底部超链接done */
+.content .text {
+  /* 布局 */
+  text-align: center;
+  /* 位置 */
+  transform: translateX(3%) translateY(-60%);
+}
+
+.content .text a {
+  /* 自身 */
+  color: white;
+  text-decoration: none;
+  /* 位置 */
+  margin: 5px;
+}

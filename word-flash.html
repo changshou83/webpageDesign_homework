@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+  <title>Document</title>
+  <style>
+    .sample {
+      background-color: #0E1326;
+      padding-top: 30px;
+      overflow: hidden;
+    }
+
+    .blank_text {
+      position: relative;
+      width: 200px;
+      margin: 20px auto;
+      color: #fff;
+      line-height: 1;
+      font-size: 50px;
+      overflow: hidden;
+    }
+
+    .blank_text::after {
+      width: 300%;
+      height: 100%;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: linear-gradient(45deg, rgba(15, 20, 40, 0.7) 0%, rgba(15, 20, 40, 0.7) 40%, rgba(15, 20, 40, 0) 50%, rgba(15, 20, 40, 0.7) 60%, rgba(15, 20, 40, 0.7) 100%);
+      animation: slide ease-in-out 2s infinite;
+    }
+
+    @keyframes slide {
+      from {
+        transform: translateX(-66.666%);
+      }
+
+      to {
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sample">
+    <div class="blank_text">flash light</div>
+  </div>
+  <footer style="position: fixed;width: 100vw;margin: 4px 0;bottom: 0;text-align: center;">&copy;1903030129</footer>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+  <title>Document</title>
+  <style>
+    #carousel {
+      height: 97vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel-img {
+      width: 800px;
+      opacity: 0;
+      /* 使图片脱离文档流叠在一起 */
+      position: absolute;
+      border: 5px solid #3e515f;
+      box-shadow: 10px 10px 5px #3e515f;
+      animation: fade 25s infinite;
+    }
+
+    #carousel .carousel-img:nth-child(2) {
+      animation-delay: 5s;
+    }
+
+    #carousel .carousel-img:nth-child(3) {
+      animation-delay: 10s;
+    }
+
+    #carousel .carousel-img:nth-child(4) {
+      animation-delay: 15s;
+    }
+
+    #carousel .carousel-img:nth-child(5) {
+      animation-delay: 20s;
+    }
+
+    @keyframes fade {
+      0% {
+        opacity: 0;
+      }
+
+      5% {
+        opacity: 1;
+      }
+
+      15% {
+        opacity: 1;
+      }
+
+      20% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section id="carousel">
+    <img src="https://farm5.staticflickr.com/4772/40677947021_5cbf9f2988_k.jpg" class="carousel-img">
+    <img src="https://farm5.staticflickr.com/4467/37419134374_80e1232ef3_k.jpg" class="carousel-img">
+    <img src="https://farm5.staticflickr.com/4463/38060919546_a89e2ebbd6_k.jpg" class="carousel-img">
+    <img src="https://farm5.staticflickr.com/4415/37119376555_b6e6b1d475_k.jpg" class="carousel-img">
+    <img src="https://farm5.staticflickr.com/4358/36591358056_f7b115d78b_k.jpg" class="carousel-img">
+  </section>
+
+  <footer style="position: fixed;width: 100vw;margin: 4px 0;bottom: 0;text-align: center;">&copy;1903030129</footer>
+  <script>
+    let result = 0
+    for (let i = 1; i < 101; i++) {
+      result += i;
+    }
+    alert(`1+2+3+...+99+100 = ${result}`)
+    console.log('1+2+3+...+99+100 =', result)
+  </script>
+</body>
+
+</html>
